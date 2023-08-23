@@ -16,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/sign")
+@CrossOrigin(origins = "*")
 public class SignController {
     private final Logger LOGGER = LoggerFactory.getLogger(SignController.class);
     @Tag(name = "Test")
@@ -31,7 +32,9 @@ public class SignController {
     public String getTest1(@RequestParam Map<String ,String > param){
         StringBuilder stringBuilder = new StringBuilder();
 
-        param.entrySet().forEach(map-> stringBuilder.append(map.getKey()).append(" : ").append(map.getValue()).append("\n"));
+        for (Map.Entry<String, String> map : param.entrySet()) {
+            stringBuilder.append(map.getKey()).append(" : ").append(map.getValue()).append("\n");
+        }
 
         LOGGER.info("getTest1 is called");
         return stringBuilder.toString();
