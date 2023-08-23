@@ -32,9 +32,11 @@ public class SignController {
     public String getTest1(@RequestParam Map<String ,String > param){
         StringBuilder stringBuilder = new StringBuilder();
 
+        stringBuilder.append("{\n");
         for (Map.Entry<String, String> map : param.entrySet()) {
-            stringBuilder.append(map.getKey()).append(" : ").append(map.getValue()).append("\n");
+            stringBuilder.append("\"").append(map.getKey()).append("\"").append(" : ").append("\"").append(map.getValue()).append("\",\n");
         }
+        stringBuilder.append("}");
 
         LOGGER.info("getTest1 is called");
         return stringBuilder.toString();
