@@ -17,15 +17,15 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user){
         return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
-    }
+    }*/
 
-   /* @PostMapping("/register")
+    @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user){
         return ResponseEntity.ok(userService.registerUser(user));
-    }*/
+    }
 
     @GetMapping("/getAll")
     public ResponseEntity<List<UserDTO>> getAllUsers(){
