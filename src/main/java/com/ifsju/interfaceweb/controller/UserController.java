@@ -3,7 +3,6 @@ package com.ifsju.interfaceweb.controller;
 import com.ifsju.interfaceweb.dto.UserDTO;
 import com.ifsju.interfaceweb.entity.User;
 import com.ifsju.interfaceweb.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
