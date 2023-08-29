@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -23,7 +22,6 @@ public class EmailService {
         message.setFrom("kkwjdfo@gmail.com");
         message.setSubject("인증 코드 : 인터페이스 공식 사이트");
 
-        String htmlMsg = "";
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append("<div style=\"max-width: 600px; text-align: center; margin: 50px auto; background-color: #ffffff;")

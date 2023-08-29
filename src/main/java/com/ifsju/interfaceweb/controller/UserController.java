@@ -2,9 +2,7 @@ package com.ifsju.interfaceweb.controller;
 
 import com.ifsju.interfaceweb.dto.UserDTO;
 import com.ifsju.interfaceweb.entity.User;
-import com.ifsju.interfaceweb.service.EmailService;
 import com.ifsju.interfaceweb.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
