@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <!-- MDB -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.css" rel="stylesheet">
 </head>
+
 <body>
 
 <div class="container mt-5">
@@ -19,7 +21,11 @@
     <form id="registerForm">
         <div class="mb-3">
             <label for="email" class="form-label">Email:</label>
-            <input type="email" id="email" class="form-control" required>
+            <div class="d-flex">
+                <input type="email" id="email" class="form-control" required>
+                <button id="checkEmail" class="btn btn-info ml-2">Duplicate Check</button>
+            </div>
+            <div id="emailFeedback" class="text-danger"></div>
         </div>
         
         <div class="mb-3">
@@ -27,34 +33,54 @@
             <input type="password" id="password" class="form-control" required>
         </div>
         
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" id="registerBtn" class="btn btn-primary" disabled>Register</button>
     </form>
 </div>
 
 <!-- MDB -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.0/mdb.min.js"></script>
 
-<!-- JavaScript to handle form submission and send POST request -->
+<!-- JavaScript to handle form submission, duplicate check, and send POST request -->
 <script>
-    // Select the form
     const form = document.getElementById('registerForm');
+    const emailField = document.getElementById('email');
+    const checkEmailBtn = document.getElementById('checkEmail');
+    const registerBtn = document.getElementById('registerBtn');
+    const emailFeedback = document.getElementById('emailFeedback');
     
-    // Add event listener for form submission
-    form.addEventListener('submit', function (e) {
-        e.preventDefault(); // Prevents the default form submission behavior
+    // Check duplicate email
+    checkEmailBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const email = emailField.value;
+        fetch(`http://localhost:8080/api/user/find-email/${email}`)
+                .then(response => {
+                    if(response.status === 200) {
+                        emailFeedback.textContent = 'Email already exists! Please re-enter.';
+                        registerBtn.disabled = true;
+                    } else {
+                        emailFeedback.textContent = '';
+                        registerBtn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+    });
+    
+    // Register user
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
         
         // Extract email and password values from the form
-        const email = document.getElementById('email').value;
+        const email = emailField.value;
         const password = document.getElementById('password').value;
         
-        // Create JSON data to be sent
         const data = {
             email: email,
             password: password
         };
         
-        // Send POST request
-        fetch('http://localhost:8080/api/sign/register', {
+        fetch('http://localhost:8080/api/user/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -65,7 +91,7 @@
                 .then(data => {
                     console.log('Success:', data);
                 })
-                .catch((error) => {
+                .catch(error => {
                     console.error('Error:', error);
                 });
     });

@@ -7,6 +7,7 @@ build/
 
 ### ###
 application-mariadb.properties
+application-mail.properties
 
 ### STS ###
 .apt_generated

@@ -34,8 +34,13 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUser(Long id){
+    public UserDTO getUserFindById(Long id){
         User user = userRepository.findById(id);
+        return new UserDTO(user.getId(), user.getEmail());
+    }
+
+    public UserDTO getUserFindByEmail(String email){
+        User user = userRepository.findByEmail(email);
         return new UserDTO(user.getId(), user.getEmail());
     }
 
