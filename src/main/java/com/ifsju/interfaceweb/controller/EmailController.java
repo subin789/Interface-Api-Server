@@ -1,5 +1,6 @@
 package com.ifsju.interfaceweb.controller;
 
+import com.ifsju.interfaceweb.dto.EmailDTO;
 import com.ifsju.interfaceweb.service.EmailService;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class EmailController {
     }
 
     @PostMapping("/send/email")
-    public String sendEmail(@RequestParam String email) throws Exception{
-        return emailService.sendMessage(email);
+    public String sendEmail(@RequestBody EmailDTO emailDTO) throws Exception{
+        return emailService.sendMessage(emailDTO.getEmail());
     }
 }
