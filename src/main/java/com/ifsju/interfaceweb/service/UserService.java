@@ -16,11 +16,7 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    /*
-    public User createUser(User user){
-        return userRepository.save(user);
-    }
-    */
+
     public User registerUser(User user){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
