@@ -18,8 +18,8 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
-public class JwtTokenProvider {
-    private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
+public class JwtTokenService {
+    private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenService.class);
 
     @Value("${jwt.secret}")
     private String secretKey = "01234567defaultSecretKey01234567";

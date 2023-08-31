@@ -18,10 +18,4 @@ public class User {
 
     private String password;
 
-    @Builder
-    public User(String email, String password){
-        this.email = email;
-        this.password = password;
-    }
-
 }
