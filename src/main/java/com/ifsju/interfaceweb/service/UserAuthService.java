@@ -20,8 +20,7 @@ public class UserAuthService {
     public List<String> getUserAuthInfos(String studentId, String password){
         String jsessionId = setJsessionId();
         sendPost(studentId,password,jsessionId);
-        List<String> userAuthInfos = sendGet(jsessionId);
-        return userAuthInfos;
+        return sendGet(jsessionId);
     }
 
     public String setJsessionId(){
@@ -32,7 +31,7 @@ public class UserAuthService {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            LOGGER.info("[setJesessionId] "+response.toString());
+            LOGGER.info("[setJesessionId] "+response);
             Headers headers = response.headers();
             for (String name : headers.names()) {
                 List<String> values = headers.values(name);
@@ -77,7 +76,7 @@ public class UserAuthService {
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            LOGGER.info("[sendPost] "+response.toString());
+            LOGGER.info("[sendPost] "+response);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,18 +85,15 @@ public class UserAuthService {
     public List<String> sendGet(String jsessionId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
-        MediaType mediaType = MediaType.parse("text/plain");
         Request request = new Request.Builder()
                 .url("http://classic.sejong.ac.kr/userCertStatus.do?menuInfoId=MAIN_02_05")
                 .addHeader("Cookie", "JSESSIONID="+jsessionId)
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            System.out.println(response);
-            String msg = response.body().string();
-            List<String> list = extractDataFromHtml(msg);
-            for (String e:list
-            ) {
+            LOGGER.info("[sendGet] "+response);
+            List<String> list = extractDataFromHtml(response.body().string());
+            for (String e:list) {
                 System.out.println(e);
             }
             return list;
@@ -109,7 +105,6 @@ public class UserAuthService {
         List<String> dataList = new ArrayList<>();
         Document doc = Jsoup.parse(html);
 
-        // Using CSS selector to find the desired elements
         Elements elements = doc.select("div.contentWrap li dl dd");
 
         for (Element element : elements) {
