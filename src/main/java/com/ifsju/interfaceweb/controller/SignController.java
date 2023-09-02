@@ -16,39 +16,42 @@ public class SignController {
     private final UserService userService;
     private final JwtTokenService jwtTokenService;
     private final Logger LOGGER = LoggerFactory.getLogger(SignController.class);
-    public SignController(UserService userService, JwtTokenService jwtTokenService){
+
+    public SignController(UserService userService, JwtTokenService jwtTokenService) {
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
     }
-    @Tag(name = "signup")
+
+    @Tag(name = "sign-up")
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user){
-        LOGGER.info("[registerUser] "+user.getEmail());
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        LOGGER.info("[registerUser] " + user.getEmail() + " 계정 등록");
 
         return ResponseEntity.ok(userService.registerUser(user));
     }
 
-    @Tag(name = "signup")
+    @Tag(name = "sign-up")
     @GetMapping("/check-duplicate/{email}")
-    public ResponseEntity<Boolean> checkDuplicateUser(@PathVariable String email){
-        LOGGER.info("[checkDuplicate] "+email);
-        if (userService.isDuplicate(email)){
+    public ResponseEntity<Boolean> checkDuplicateUser(@PathVariable String email) {
+        LOGGER.info("[checkDuplicate] " + email + " 중복 확인");
+        if (userService.isDuplicate(email)) {
             return new ResponseEntity<>(true, HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
         }
     }
 
+    @Tag(name = "sign-in")
     @PostMapping("/sign-in")
-    public ResponseEntity<String> signIn(@RequestBody User user){
-        if (userService.checkPassword(user)){
+    public ResponseEntity<String> signIn(@RequestBody User user) {
+        if (userService.checkPassword(user)) {
+            LOGGER.info("[signIn] " + user.getEmail() + " 로그인 성공");
             return ResponseEntity.ok(jwtTokenService.createToken(user.getEmail()));
-        }else {
+        } else {
+            LOGGER.info("[signIn] " + user.getEmail() + " 로그인 실패");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
 
 }
