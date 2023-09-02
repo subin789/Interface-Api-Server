@@ -36,6 +36,9 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     // Mail
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // Http
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+    implementation 'org.jsoup:jsoup:1.15.3'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'

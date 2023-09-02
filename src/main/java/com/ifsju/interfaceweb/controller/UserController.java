@@ -2,6 +2,7 @@ package com.ifsju.interfaceweb.controller;
 
 import com.ifsju.interfaceweb.dto.UserDTO;
 import com.ifsju.interfaceweb.entity.User;
+import com.ifsju.interfaceweb.service.UserAuthService;
 import com.ifsju.interfaceweb.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,12 @@ import java.util.List;
 @RequestMapping("api/user")
 public class UserController {
     private final UserService userService;
+    private final UserAuthService userAuthService;
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserAuthService userAuthService) {
         this.userService = userService;
+        this.userAuthService = userAuthService;
     }
 
 
@@ -43,6 +46,13 @@ public class UserController {
             LOGGER.info("[findByEmail] Not Found "+email);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/auth")
+    //임시로 user 엔티티 사용함, email 이 아니라 studentId로 바꿔야 함
+    public ResponseEntity<List<String>> auth(@RequestBody User user){
+        List<String> userInfos = userAuthService.getUserAuthInfos(user.getEmail(), user.getPassword());
+        return new ResponseEntity<>(userInfos, HttpStatus.OK);
     }
 
 
