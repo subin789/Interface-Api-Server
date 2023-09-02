@@ -7,6 +7,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ import java.util.List;
 public class UserAuthService {
     private final Logger LOGGER = LoggerFactory.getLogger(UserAuthService.class);
 
-    public List<String> getUserAuthInfos(String studentId, String password){
+    public String getUserAuthInfos(String studentId, String password){
         String jsessionId = setJsessionId();
         sendPost(studentId,password,jsessionId);
         return sendGet(jsessionId);
@@ -82,7 +84,7 @@ public class UserAuthService {
         }
     }
 
-    public List<String> sendGet(String jsessionId){
+    public String sendGet(String jsessionId){
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
@@ -93,11 +95,14 @@ public class UserAuthService {
             Response response = client.newCall(request).execute();
             LOGGER.info("[sendGet] "+response);
             List<String> list = extractDataFromHtml(response.body().string());
-            for (String e:list) {
-                System.out.println(e);
-            }
-            return list;
-        } catch (IOException e) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("major", list.get(0));
+            jsonObject.put("studentId",list.get(1));
+            jsonObject.put("name",list.get(2));
+            jsonObject.put("grade",list.get(3));
+            jsonObject.put("enrolled",list.get(4));
+            return jsonObject.toString();
+        } catch (IOException | JSONException e) {
             throw new RuntimeException(e);
         }
     }

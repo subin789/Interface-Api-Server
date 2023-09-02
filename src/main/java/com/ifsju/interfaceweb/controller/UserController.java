@@ -6,6 +6,7 @@ import com.ifsju.interfaceweb.service.UserAuthService;
 import com.ifsju.interfaceweb.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +51,8 @@ public class UserController {
 
     @PostMapping("/auth")
     //임시로 user 엔티티 사용함, email 이 아니라 studentId로 바꿔야 함
-    public ResponseEntity<List<String>> auth(@RequestBody User user){
-        List<String> userInfos = userAuthService.getUserAuthInfos(user.getEmail(), user.getPassword());
+    public ResponseEntity<String> auth(@RequestBody User user){
+        String userInfos = userAuthService.getUserAuthInfos(user.getEmail(), user.getPassword());
         return new ResponseEntity<>(userInfos, HttpStatus.OK);
     }
 
