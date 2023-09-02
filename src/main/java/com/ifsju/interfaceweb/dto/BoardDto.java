@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardDto {
@@ -14,8 +16,8 @@ public class BoardDto {
     private String title;
     private String content;
     private User writer;
-    private String created_date;
-    private String modified_date;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
     @Builder
     public BoardDto(Board board) {
@@ -23,7 +25,7 @@ public class BoardDto {
         this.title = board.getTitle();
         this.content = board.getContent();
         this.writer = board.getWriter();
-        this.created_date = board.getCreated_date();
-        this.modified_date = board.getModified_date();
+        this.createdDate = board.getCreatedDate();
+        this.modifiedDate = board.getModifiedDate();
     }
 }

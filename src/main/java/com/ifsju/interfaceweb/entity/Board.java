@@ -6,7 +6,7 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board{
+public class Board extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,18 +22,11 @@ public class Board{
     @JoinColumn(name = "user_id")
     private User writer;
 
-    @Column
-    private String created_date;
-
-    @Column
-    private String modified_date;
 
     @Builder
-    public Board(String title, String content, User writer, String created_date, String modified_date) {
+    public Board(String title, String content, User writer) {
         this.title = title;
         this.content = content;
         this.writer = writer;
-        this.created_date = created_date;
-        this.modified_date = modified_date;
     }
 }

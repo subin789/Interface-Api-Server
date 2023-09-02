@@ -38,9 +38,10 @@ class BoardServiceTest {
         String content = "test content";
         User writer = new User(1L, "eee@naver.com", "1234");
         userRepository.save(writer);
+
         String created_date = "2022-22-22";
         String modified_date = "2022-23-23";
-        Board board = new Board(title, content, writer, created_date, modified_date);
+        Board board = new Board(title, content, writer);
 
         BoardDto boardDto = new BoardDto(board);
 
