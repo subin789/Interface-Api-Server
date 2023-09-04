@@ -1,5 +1,7 @@
 package com.ifsju.interfaceweb.dto;
 
+
+import com.ifsju.interfaceweb.entity.User;
 import lombok.*;
 
 @Getter @Setter
@@ -8,7 +10,7 @@ public class UserDTO {
     private Long id;
     private String email;
 
-    @Builder
+
     public UserDTO(Long id, String email){
         this.id = id;
         this.email = email;
