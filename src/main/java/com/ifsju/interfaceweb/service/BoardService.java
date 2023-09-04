@@ -1,20 +1,16 @@
 package com.ifsju.interfaceweb.service;
 
 import com.ifsju.interfaceweb.dto.BoardDto;
-import com.ifsju.interfaceweb.dto.UserDTO;
 import com.ifsju.interfaceweb.entity.Board;
-import com.ifsju.interfaceweb.entity.User;
 import com.ifsju.interfaceweb.repository.BoardRepository;
 import com.ifsju.interfaceweb.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,7 +26,7 @@ public class BoardService {
         Board board = Board.builder()
                 .title(boardDto.getTitle())
                 .content(boardDto.getContent())
-                .writer(boardDto.getWriter()).build();
+                .writer(userRepository.findById(boardDto.getUserId())).build();
 
         boardRepository.save(board);
     }
@@ -59,5 +55,14 @@ public class BoardService {
         }
 
         return boardDtoList;
+    }
+
+    // id로 게시물 불러오기
+    @Transactional
+    public BoardDto findById(Long id) throws EntityNotFoundException {
+        BoardDto boardDto = BoardDto.builder()
+                .board(boardRepository.findById(id).get()).build();
+
+        return boardDto;
     }
 }

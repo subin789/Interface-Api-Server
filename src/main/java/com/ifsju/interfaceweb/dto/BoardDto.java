@@ -1,7 +1,6 @@
 package com.ifsju.interfaceweb.dto;
 
 import com.ifsju.interfaceweb.entity.Board;
-import com.ifsju.interfaceweb.entity.User;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +14,7 @@ public class BoardDto {
     private Long id;
     private String title;
     private String content;
-    private User writer;
+    private Long userId;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -24,8 +23,15 @@ public class BoardDto {
         this.id = board.getId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.writer = board.getWriter();
+        this.userId = board.getWriter().getId();
         this.createdDate = board.getCreatedDate();
         this.modifiedDate = board.getModifiedDate();
+    }
+
+    @Builder
+    public BoardDto(String title, String content, Long userId) {
+        this.title = title;
+        this.content = content;
+        this.userId = userId;
     }
 }
