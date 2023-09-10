@@ -65,4 +65,29 @@ public class BoardService {
 
         return boardDto;
     }
+
+    // 게시물 삭제
+    @Transactional
+    public void delete(Long id) throws EntityNotFoundException {
+        Board board=boardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물이 없습니다."));
+        boardRepository.delete(board);
+    }
+
+    // 게시물 수정
+    @Transactional
+    public BoardDto update(Long id, BoardDto updatedBoardDto) throws EntityNotFoundException {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시물이 없습니다."));
+
+        board.setTitle(updatedBoardDto.getTitle());
+        board.setContent(updatedBoardDto.getContent());
+
+        Board updatedBoard = boardRepository.save(board);
+
+        return BoardDto.builder()
+                .board(updatedBoard)
+                .build();
+    }
+
 }
