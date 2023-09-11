@@ -3,6 +3,7 @@ package com.ifsju.interfaceweb.controller;
 import com.ifsju.interfaceweb.dto.BoardDto;
 import com.ifsju.interfaceweb.service.BoardService;
 import com.ifsju.interfaceweb.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,6 +49,21 @@ public class BoardController {
     @GetMapping("/findById")
     public ResponseEntity<BoardDto> findById(@RequestParam("id")Long id) throws Exception {
         return ResponseEntity.ok(boardService.findById(id));
+    }
+
+    // 글삭제
+    @DeleteMapping("/delete")
+    public ResponseEntity<BoardDto> delete(@RequestParam("id") Long id) throws Exception {
+        boardService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    //글수정
+    @PutMapping("/update")
+    public ResponseEntity<BoardDto> update(@PathVariable("id") Long id, @RequestBody BoardDto updatedBoardDto) throws Exception {
+        BoardDto updatedBoard = boardService.update(id, updatedBoardDto);
+
+        return ResponseEntity.ok(updatedBoard);
     }
 
 }
