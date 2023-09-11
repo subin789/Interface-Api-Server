@@ -80,10 +80,14 @@ public class BoardService {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 게시물이 없습니다."));
 
-        board.setTitle(updatedBoardDto.getTitle());
-        board.setContent(updatedBoardDto.getContent());
+        Board updatedBoard = Board.builder()
+                .id(board.getId())
+                .title(updatedBoardDto.getTitle())
+                .content(updatedBoardDto.getContent())
+                .writer(board.getUserId())
+                .build();
 
-        Board updatedBoard = boardRepository.save(board);
+        updatedBoard = boardRepository.save(updatedBoard);
 
         return BoardDto.builder()
                 .board(updatedBoard)
